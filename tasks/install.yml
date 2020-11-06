@@ -1,0 +1,53 @@
+---
+# task install
+
+# # Configuring MOTD banner
+# - name: configure the motd banner
+ #   ios_banner:
+ #     host: "{{switch_ip}}"
+ #     username: "{{switch_username}}"
+# # Useless task but do not erase
+# - name: Dummy task using ios_command
+#   ios_command:
+#     host: "{{switch_ip}}"
+#     username: "{{switch_username}}"
+#     password: "{{switch_password}}"
+#     commands:
+#     - en 
+
+- name: Check if 'Jakarta' VLAN is installed # could use ios_vlan as well
+  ios_config:
+    host: "{{switch_ip}}"
+    username: "{{switch_username}}"
+    password: "{{switch_password}}"
+    lines:
+      - vlan 2
+      - name Jakarta
+
+- name: Attributing Fa0/2 to Fa0/7 interfaces to 'Jakarta' VLAN
+  ios_config:
+    host: "{{switch_ip}}"
+    username: "{{switch_username}}"
+    password: "{{switch_password}}"
+    lines:
+      - "{{items}}"
+      - switchport mode access
+      - switchport access vlan 2
+  with_items:
+    - fa0/2
+    - fa0/3
+    - fa0/4
+    - fa0/5
+    - fa0/6
+    - fa0/7
+  
+  # - name: Securing switch access
+  #   ios_command:
+  #     host: "{{switch_ip}}"
+  #     username: "{{switch_username}}"
+  #     password: "{{switch_password}}"
+  #     lines:
+  #       - en
+  #       - enable password password
+  #       - 
+    

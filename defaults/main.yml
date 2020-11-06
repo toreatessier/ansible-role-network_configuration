@@ -1,0 +1,6 @@
+---
+# defaults file for ansible-role-network_configuration
+
+switch_ip: 192.168.168.1
+switch_username: admin
+switch_password: admin
